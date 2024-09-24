@@ -2,6 +2,8 @@
 
 #include "CasTaxonomyData_export.h"
 
+#include "Taxonomy.h"
+
 #include <RawData.h>
 #include <Set.h>
 
@@ -22,6 +24,8 @@ public:
 
     void init() override;
 
+    Taxonomy& getTaxonomy() { return taxonomy; }
+
     /**
      * Create dataset for raw data
      * @param guid Globally unique dataset identifier (use only for deserialization)
@@ -30,7 +34,7 @@ public:
     mv::Dataset<mv::DatasetImpl> createDataSet(const QString& guid = "") const override;
 
 private:
-
+    Taxonomy taxonomy;
 };
 
 // =============================================================================
@@ -54,6 +58,10 @@ public:
     /** Mandatory override for copying of data sets */
     mv::Dataset<mv::DatasetImpl> copy() const override;
 
+    Taxonomy& getTaxonomy()
+    {
+        return getRawData<CasTaxonomyData>()->getTaxonomy();
+    }
     //void setData(const std::vector<CellMorphology>& cellMorphologies);
 
     /**

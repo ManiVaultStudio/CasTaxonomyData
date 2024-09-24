@@ -59,7 +59,7 @@ Dataset<DatasetImpl> CasTaxonomy::copy() const
 
 QIcon CasTaxonomy::getIcon(const QColor& color /*= Qt::black*/) const
 {
-    return QIcon(":/Icon_64.png");
+    return QIcon(":cas_taxonomy/Icon_64.png");
 }
 
 std::vector<std::uint32_t>& CasTaxonomy::getSelectionIndices()

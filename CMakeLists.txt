@@ -50,13 +50,18 @@ set(PLUGIN_HEADERS
     src/Taxonomy.h
 )
 
+set(PLUGIN_RESOURCES
+    res/cas_taxonomy_resources.qrc
+)
+QT6_ADD_RESOURCES(RESOURCE_FILES ${PLUGIN_RESOURCES})
+
 source_group( Plugin FILES ${PLUGIN_SOURCES})
 
 # -----------------------------------------------------------------------------
 # CMake Target
 # -----------------------------------------------------------------------------
 # Create dynamic library for the plugin
-add_library(${PROJECT_NAME} SHARED ${PLUGIN_SOURCES})
+add_library(${PROJECT_NAME} SHARED ${PLUGIN_SOURCES} ${RESOURCE_FILES})
 
 qt_wrap_cpp(PLUGIN_MOC ${PLUGIN_HEADERS} TARGET ${PROJECT_NAME})
 target_sources(${PROJECT_NAME} PRIVATE ${PLUGIN_MOC})
@@ -99,6 +104,12 @@ target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::WebEngineWidgets)
 # Link to ManiVault and data plugins
 #target_link_libraries(${PROJECT_NAME} PRIVATE ManiVault::Core)
 target_link_libraries(${PROJECT_NAME} PRIVATE "D:/Work/ManiVault/Install/$<CONFIGURATION>/lib/MV_Public.lib")
+
+set(MV_LINK_PATH "${ManiVault_INSTALL_DIR}/$<CONFIGURATION>/lib")
+set(PLUGIN_LINK_PATH "${ManiVault_INSTALL_DIR}/$<CONFIGURATION>/$<IF:$<CXX_COMPILER_ID:MSVC>,lib,Plugins>")
+set(MV_LINK_SUFFIX $<IF:$<CXX_COMPILER_ID:MSVC>,${CMAKE_LINK_LIBRARY_SUFFIX},${CMAKE_SHARED_LIBRARY_SUFFIX}>)
+set(CAS_TAXONOMY_DATA_LINK_LIBRARY "${PLUGIN_LINK_PATH}/${CMAKE_SHARED_LIBRARY_PREFIX}CasTaxonomyData${MV_LINK_SUFFIX}")
+target_link_libraries(${PROJECT_NAME} PRIVATE "${CAS_TAXONOMY_DATA_LINK_LIBRARY}")
 
 # -----------------------------------------------------------------------------
 # Target installation

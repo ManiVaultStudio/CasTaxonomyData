@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="cas_taxonomy">
+        <file>Icon_64.png</file>
+    </qresource>
+</RCC>

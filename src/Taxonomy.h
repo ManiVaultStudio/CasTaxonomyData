@@ -8,7 +8,7 @@
 
 enum class CASTAXONOMYDATA_EXPORT Verdict
 {
-    AGRRE, DISAGREE
+    AGREE, DISAGREE
 };
 
 class CASTAXONOMYDATA_EXPORT Review
