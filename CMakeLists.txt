@@ -7,8 +7,6 @@ option(MV_UNITY_BUILD "Combine target source files into batches for faster compi
 # -----------------------------------------------------------------------------
 PROJECT("CasTaxonomyData")
 
-set(ManiVault_INSTALL_DIR "D:/Work/ManiVault/Install")
-
 # -----------------------------------------------------------------------------
 # CMake Options
 # -----------------------------------------------------------------------------
@@ -31,7 +29,7 @@ include(GenerateExportHeader)
 # -----------------------------------------------------------------------------
 find_package(Qt6 COMPONENTS Widgets WebEngineWidgets REQUIRED)
 
-find_package(ManiVault COMPONENTS Core CONFIG)
+find_package(ManiVault COMPONENTS Core CONFIG REQUIRED)
 
 # -----------------------------------------------------------------------------
 # Source files
@@ -76,8 +74,7 @@ list(APPEND PLUGIN_HEADERS ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}_export.h)
 # Target include directories
 # -----------------------------------------------------------------------------
 # Include ManiVault headers, including system data plugins
-#target_include_directories(${PROJECT_NAME} PRIVATE "${ManiVault_INCLUDE_DIR}")
-target_include_directories(${PROJECT_NAME} PRIVATE "${ManiVault_INSTALL_DIR}/$<CONFIGURATION>/include")
+target_include_directories(${PROJECT_NAME} PRIVATE "${ManiVault_INCLUDE_DIR}")
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/src)
 #target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/thirdparty/Eigen/include)
 
@@ -102,14 +99,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets)
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::WebEngineWidgets)
 
 # Link to ManiVault and data plugins
-#target_link_libraries(${PROJECT_NAME} PRIVATE ManiVault::Core)
-target_link_libraries(${PROJECT_NAME} PRIVATE "D:/Work/ManiVault/Install/$<CONFIGURATION>/lib/MV_Public.lib")
-
-set(MV_LINK_PATH "${ManiVault_INSTALL_DIR}/$<CONFIGURATION>/lib")
-set(PLUGIN_LINK_PATH "${ManiVault_INSTALL_DIR}/$<CONFIGURATION>/$<IF:$<CXX_COMPILER_ID:MSVC>,lib,Plugins>")
-set(MV_LINK_SUFFIX $<IF:$<CXX_COMPILER_ID:MSVC>,${CMAKE_LINK_LIBRARY_SUFFIX},${CMAKE_SHARED_LIBRARY_SUFFIX}>)
-set(CAS_TAXONOMY_DATA_LINK_LIBRARY "${PLUGIN_LINK_PATH}/${CMAKE_SHARED_LIBRARY_PREFIX}CasTaxonomyData${MV_LINK_SUFFIX}")
-target_link_libraries(${PROJECT_NAME} PRIVATE "${CAS_TAXONOMY_DATA_LINK_LIBRARY}")
+target_link_libraries(${PROJECT_NAME} PRIVATE ManiVault::Core)
 
 # -----------------------------------------------------------------------------
 # Target installation
